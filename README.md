@@ -1,37 +1,45 @@
 # Lab M4.10 - Terraform Git Workflows
 
-**Course:** Cloud Engineering Bootcamp - Week 4
-**Estimated Time:** 60-75 minutes
+## Workflow
 
-## 🎯 Objectives
+1. Create feature branch
+2. Make infrastructure changes
+3. Push and open PR
+4. GitHub Actions runs format, validate, plan
+5. Review plan output in PR comment
+6. Merge to main
 
-- Implement Git workflows for Terraform
-- Set up GitHub Actions CI/CD
-- Publish module to GitHub
-- Create pull request workflow
-- Apply best practices
+## CI/CD Pipeline
 
-## 📁 Repository Structure
+- **Format check** — ensures consistent code style
+- **Validate** — catches syntax errors
+- **Plan** — shows proposed changes on PRs
+
+## Repository Structure
 
 ```
-ce-lab-terraform-workflows/
-├── README.md
 ├── .github/
 │   ├── workflows/
 │   │   └── terraform.yml
-│   ├── pull_request_template.md
-│   └── CODEOWNERS
+│   └── pull_request_template.md
 ├── .gitignore
-├── .pre-commit-config.yaml
 ├── main.tf
-├── workflows-documentation.md
+├── variables.tf
+├── outputs.tf
 └── screenshots/
+    └── planOutputandPRComment.png
 ```
 
-## ✅ Grading (100pts)
+## Infrastructure
 
-- Git workflow: 20pts
-- GitHub Actions: 25pts
-- Module publishing: 20pts
-- Best practices: 20pts
-- Documentation: 15pts
+An S3 bucket provisioned with:
+
+- **Versioning** enabled
+- **Server-side encryption** (AES256)
+- **Public access block** — all public access denied
+
+## Verification
+
+The screenshot below shows the GitHub Actions pipeline running on the pull request `feature/add-bucket-encryption → main`. Two workflow runs are visible: the first with `Terraform Plan: failure` (due to an expired OpenPGP signing key on `hashicorp/aws v5.100.0`) and the second with all checks passing after pinning the provider version to `>= 5.0, < 5.100.0`.
+
+![Plan output and PR comment](screenshots/planOutputandPRComment.png)
