@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name"
   type        = string
-  default     = "tf-workflows"
+  default     = "eric-borba-tf-workflows"
 }
 
 variable "environment" {
